@@ -1,0 +1,127 @@
+@name Npc Battler thing 
+@persist [EGP]:wirelink [R,B,SpawnSize,Radus1,Radus2]:number [RedTeam,BlueTeam]:array
+@persist [Rspawn,Bspawn,Screen,E,Ting,Ting2]:entity
+
+interval(70)
+
+function number wirelink:click(N){
+return inrange(EGP:egpCursor(EGP["User",entity]),EGP:egpPos(N)-EGP:egpSize(N)/2,EGP:egpPos(N)+EGP:egpSize(N)/2)
+}
+
+if(first())
+{
+   
+    SpawnSize = 100 
+    E = entity()
+    Screen = E:isWeldedTo()
+    EGP = Screen:wirelink()
+    
+    
+    
+    propSpawnUndo(0)
+    Bspawn = propSpawn("models/props_junk/sawblade001a.mdl",Screen:toWorld(vec(0,50,0)),1)
+    Rspawn = propSpawn("models/props_junk/sawblade001a.mdl",Screen:toWorld(vec(0,-50,0)),1)
+    Rspawn:setColor(vec(255,0,0))
+    Rspawn:setMaterial("models/debug/debugwhite")
+    Bspawn:setColor(vec(0,0,255))
+    Bspawn:setMaterial("models/debug/debugwhite")    
+    Rspawn:setAng(ang(0,0,0)) 
+    Bspawn:setAng(ang(0,0,0))
+    
+    noCollideAll(Rspawn,1)
+    noCollideAll(Bspawn,1)
+    
+    
+    EGP:egpClear()
+    
+    EGP:egpBox(1,vec2(256),vec2(4,500))
+    
+    EGP:egpBox(11,vec2(125,46),vec2(180,40))
+    EGP:egpText(111,"Zombie",vec2(62,25))
+    EGP:egpSize(111,40)
+    
+    EGP:egpBox(12,vec2(125,106),vec2(180,40))    
+    EGP:egpText(122,"MetroCop",vec2(45,85))
+    EGP:egpSize(122,40)     
+    
+    EGP:egpBox(21,vec2(385,46),vec2(180,40))
+    EGP:egpText(211,"Zombie",vec2(322,25))
+    EGP:egpSize(211,40)
+    
+    EGP:egpBox(22,vec2(385,106),vec2(180,40))     
+    EGP:egpText(222,"MetroCop",vec2(305,85))
+    EGP:egpSize(222,40)    
+
+    EGP:egpColor(111,vec(0)),EGP:egpColor(122,vec(0))
+    EGP:egpColor(211,vec(0)),EGP:egpColor(222,vec(0))
+}
+
+Radus1 = round(random(SpawnSize))
+Radus2 = round(random(SpawnSize))
+
+
+if(EGP:click(11))
+{
+  interval(158)
+  R += 1
+  Zom = npcSpawn("npc_zombie",Rspawn:toWorld(vec(Radus1,Radus2,5)))
+  Zom:setColor(vec(255,0,0))
+  RedTeam:insertEntity(R,Zom)
+  
+}
+
+
+if(EGP:click(12))
+{
+  interval(158)
+  R += 1
+  Cop = npcSpawn("npc_metropolice",Rspawn:toWorld(vec(Radus1,Radus2,5)))
+  Cop:npcGiveWeapon("stunstick")
+  Cop:setColor(vec(255,0,0))
+  RedTeam:insertEntity(R,Cop)
+}
+
+
+if(EGP:click(21))
+{
+  interval(158)
+  B += 1
+  Zom2 = npcSpawn("npc_zombie",Bspawn:toWorld(vec(Radus1,Radus2,5)))
+  Zom2:setColor(vec(0,0,255))
+  BlueTeam:insertEntity(B,Zom2)
+  
+}
+
+if(EGP:click(22))
+{
+  interval(158)
+  B += 1
+  Cop2 = npcSpawn("npc_metropolice",Bspawn:toWorld(vec(Radus1,Radus2,5)))
+  Cop2:npcGiveWeapon("stunstick")
+  Cop2:setColor(vec(0,0,255))
+  BlueTeam:insertEntity(B,Cop2)
+}
+
+
+
+foreach(K,V:entity=RedTeam)
+{
+ V:npcRelationship(V,"like",998)
+ V:npcRelationship(Ting2,"hate",999)
+ Ting = V 
+}
+
+foreach(K,V:entity=BlueTeam)
+{
+ V:npcRelationship(V,"like",998)
+ V:npcRelationship(Ting,"hate",999)
+ Ting2 = V 
+}
+
+
+
+foreach(L,N:entity=players())
+{
+ Ting:npcRelationship(N,"like",997) 
+ Ting2:npcRelationship(N,"like",997)     
+}

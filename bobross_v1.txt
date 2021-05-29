@@ -1,0 +1,332 @@
+@name BobRoss v1
+@persist
+@persist [E,Screen,Player]:entity [DrawPoint,Size]:vector2
+@persist [EGP]:wirelink [I,Start,B,Clear,ColorScreen,R,G,Blue]:number [Color,BGColor,CustomColor]:vector
+@model
+
+interval(1)
+
+function number wirelink:click(N){
+return inrange(EGP:egpCursor(EGP["User",entity]),EGP:egpPos(N)-EGP:egpSize(N)/2,EGP:egpPos(N)+EGP:egpSize(N)/2)
+}
+
+
+if(first() | dupefinished())
+{
+ E = entity()
+ Screen = E:isWeldedTo()
+ EGP = Screen:wirelink()   
+ Start = 1   
+ Screen:setMaterial("models/props/CS_militia/roofbeams03")    
+ ColorScreen = 0
+ Size = vec2(4) 
+
+ Color = vec(0) 
+ BGColor = vec(255)
+ CustomColor  = vec(255) 
+
+ R = 0,G = 0,Blue = 0
+
+
+
+ EGP:egpClear()    
+
+ EGP:egpBox(1,vec2(256),vec2(550))  
+ EGP:egpRoundedBox(2,vec2(256),vec2(350,70))
+ EGP:egpColor(2,vec(45))
+
+ EGP:egpRoundedBox(3,vec2(206,356),vec2(70,70))
+ EGP:egpColor(3,vec(50))
+ EGP:egpRoundedBox(4,vec2(326,356),vec2(70,70))
+ EGP:egpColor(4,vec(150))
+
+
+ I = 10
+   
+}
+
+
+if(EGP:click(3) && Start == 1)
+{
+ 
+ BGColor = vec(0)
+ EGP:egpColor(1,BGColor)   
+}
+
+if(EGP:click(4) && Start == 1)
+{
+ 
+ BGColor = vec(140)
+ EGP:egpColor(1,BGColor)   
+}
+
+
+
+
+if(EGP:click(2) && Start == 1)
+{
+ Start = 0
+ interval(230)
+ Player = EGP["User",entity]
+ print(Player:name())   
+ EGP:egpBox(1,vec2(256,190),vec2(550,400))    
+ EGP:egpColor(1,BGColor)
+
+ EGP:egpRoundedBox(2,vec2(256,450),vec2(550,150))  
+ EGP:egpColor(2,vec(55))
+
+ EGP:egpRoundedBox(3,vec2(256,450),vec2(480,120))  
+ EGP:egpColor(3,vec(75))
+
+ EGP:egpBox(4,vec2(426,420),vec2(35))
+ EGP:egpMaterial(4,"gui/html/back")
+ EGP:egpAngle(4,-90)
+ EGP:egpBox(5,vec2(426,490),vec2(35))
+ EGP:egpMaterial(5,"gui/html/back")
+ EGP:egpAngle(5,90)
+
+
+
+
+ EGP:egpText(6,Size:toString(),vec2(410,446))
+
+
+
+ 
+ EGP:egpBox(7,vec2(376,420),vec2(55))
+ EGP:egpMaterial(7,"gui/html/refresh")
+
+ EGP:egpBox(8,vec2(376,480),vec2(55))
+ EGP:egpMaterial(8,"gui/html/stop")
+
+ EGP:egpBox(9,vec2(206,430),vec2(55))
+ EGP:egpColor(9,vec(0))
+
+ EGP:egpBox(10,vec2(276,430),vec2(55))
+ EGP:egpColor(10,vec(255))
+
+
+ EGP:egpBox(11,vec2(126,430),vec2(55))
+ EGP:egpColor(11,CustomColor)
+
+ EGP:egpBox(12,vec2(126,480),vec2(55,35))
+ EGP:egpColor(12,vec(255))
+
+  
+}
+
+  DrawPoint = EGP:egpCursor(Player) 
+   
+
+
+if(EGP["User",entity] == Player)
+{
+ 
+ if(EGP:click(1) && Start == 0 && ColorScreen == 0)
+ {
+  interval(230)
+  I += 1
+  EGP:egpCircle(I,DrawPoint,Size)
+  EGP:egpColor(I,Color)
+
+ }
+
+ if(EGP:click(4) && ColorScreen == 0)
+ {
+   interval(230)    
+   B += 2    
+   Size = vec2(B)
+   EGP:egpText(6,Size:toString(),vec2(410,446))  
+ }
+ if(EGP:click(5) && ColorScreen == 0)
+ {
+   interval(230) 
+   B -= 2  
+   Size = vec2(B)
+   EGP:egpText(6,Size:toString(),vec2(410,446))  
+ }
+
+ if(EGP:click(7) && ColorScreen == 0)
+ {
+  interval(230)
+  EGP:egpRemove(I)
+  I -= 1
+ }
+ if(EGP:click(8) && ColorScreen == 0)
+ {
+  interval(230)
+  Clear = 1
+ }
+   
+ if(EGP:click(9) && ColorScreen == 0)
+ {
+  Color = vec(0)
+ }
+ if(EGP:click(10) && ColorScreen == 0)
+ {
+  Color = vec(255)
+ }
+
+ if(EGP:click(11) && ColorScreen == 0)
+ {
+  Color = CustomColor
+ }
+
+ if(EGP:click(12) && ColorScreen == 0)
+ {
+  interval(230)
+  ColorScreen = 1
+  timer("ColorScreen",10)
+ }
+
+
+
+if(clk("ColorScreen"))
+{
+EGP:egpOrder(101,1000)
+EGP:egpOrder(111,1001),EGP:egpOrder(121,1001),EGP:egpOrder(131,1001)
+EGP:egpOrder(141,1001),EGP:egpOrder(151,1001),EGP:egpOrder(161,1001)
+
+ EGP:egpBox(101,vec2(256),vec2(550))
+ EGP:egpAlpha(101,70)   
+
+ EGP:egpBox(111,vec2(160,116),vec2(90))
+ EGP:egpBox(121,vec2(260,116),vec2(90))
+ EGP:egpBox(131,vec2(360,116),vec2(90))
+
+
+ EGP:egpBox(141,vec2(160,316),vec2(90))
+ EGP:egpBox(151,vec2(260,316),vec2(90))
+ EGP:egpBox(161,vec2(360,316),vec2(90))
+
+
+ EGP:egpBox(202,vec2(400,416),vec2(120,40))
+
+
+ EGP:egpAngle(111,-90), EGP:egpAngle(121,-90), EGP:egpAngle(131,-90)
+ EGP:egpAngle(141,90), EGP:egpAngle(151,90), EGP:egpAngle(161,90)
+
+EGP:egpMaterial(111,"gui/html/back"), EGP:egpMaterial(121,"gui/html/back"), EGP:egpMaterial(131,"gui/html/back") 
+EGP:egpMaterial(141,"gui/html/back"), EGP:egpMaterial(151,"gui/html/back"), EGP:egpMaterial(161,"gui/html/back")
+
+
+
+
+ 
+}
+
+
+EGP:egpColor(11,CustomColor) 
+
+CustomColor = vec(R,G,Blue)
+
+
+ if(EGP:click(111) && ColorScreen == 1)
+ {
+  interval(230)
+  R += 10
+ }
+ if(EGP:click(121) && ColorScreen == 1)
+ {
+  interval(230)
+  G += 10
+ }
+ if(EGP:click(131) && ColorScreen == 1)
+ {
+  interval(230)
+  Blue += 10
+ }
+
+
+ if(EGP:click(141) && ColorScreen == 1)
+ {
+  interval(230)
+  R -= 10
+ }
+ if(EGP:click(151) && ColorScreen == 1)
+ {
+  interval(230)
+  G -= 10
+ }
+ if(EGP:click(161) && ColorScreen == 1)
+ {
+  interval(230)
+  Blue -= 10
+ }
+
+
+
+ if(EGP:click(202) && ColorScreen == 1)
+ {
+    
+    timer("Normal",100)
+ }
+
+
+if(clk("Normal"))
+{
+EGP:egpRemove(101),EGP:egpRemove(202) 
+EGP:egpRemove(111),EGP:egpRemove(121),EGP:egpRemove(131)
+EGP:egpRemove(141),EGP:egpRemove(151),EGP:egpRemove(161)
+
+ColorScreen = 0
+  
+Color = CustomColor
+ 
+}
+
+}
+
+
+
+if(Clear == 1)
+{
+  EGP:egpRemove(I)
+  I -= 1   
+}
+
+if(I < 13)
+{
+ I = 13
+ Clear = 0   
+}
+
+
+if(B < 0)
+{
+ B = 0   
+}
+
+
+
+if(R > 255)
+{
+ R = 255   
+}
+if(Blue > 255)
+{
+ Blue = 255   
+}
+if(G > 255)
+{
+ G = 255   
+}
+
+if(R < 0)
+{
+ R = 0   
+}
+if(Blue < 0)
+{
+ Blue = 0   
+}
+if(G < 0)
+{
+ G = 0   
+}
+
+
+
+
+#EGP:egpText(6,Size:toString(),vec2(410,446)) 
+

@@ -1,0 +1,358 @@
+@name SHIP Maker
+@inputs 
+@persist [E,Prop,Prop_1,Prop_2,Prop_3,Prop_4,Seat0,Seat1]:entity  [Models]:array [BuildSound,BuildSound2]:string
+@persist [EGP]:wirelink [SHIP_num,SHIP_count,I]:number
+@model models/mechanics/roboticslarge/xfoot.mdl
+interval(1)
+
+function number wirelink:click(N){
+return inrange(EGP:egpCursor(EGP["User",entity]),EGP:egpPos(N)-EGP:egpSize(N)/2,EGP:egpPos(N)+EGP:egpSize(N)/2)
+}
+
+
+if(first())
+{
+E = entity()
+E:setMaterial("models/debug/debugwhite")
+Screen = E:isWeldedTo()
+EGP = Screen:wirelink()
+EGP:egpClear()
+Screen:setMaterial("models/debug/debugwhite")
+I = 0
+SHIP_num = 1
+SHIP_count = 3
+
+BuildSound = "garrysmod/balloon_pop_cute.wav"
+BuildSound2 = "phx/epicmetal_hard.wav"
+EGP:egpBox(1,vec2(260),vec2(555))
+ 
+EGP:egpBox(11,vec2(480),vec2(50))
+EGP:egpBox(22,vec2(30,480),vec2(50))
+EGP:egpRoundedBox(33,vec2(260,480),vec2(150,50))
+EGP:egpRoundedBox(44,vec2(260,430),vec2(150,30))
+EGP:egpText(5,"BUILD",vec2(205,460))
+
+EGP:egpColor(1,vec(35))
+}
+
+if(SHIP_num == 1)
+{
+EGP:egpText(2,"Name: -TestShip1-",vec2(20,20))
+EGP:egpText(3,"Type: SpaceShip",vec2(20,55))
+EGP:egpText(4,"Speed: -null-",vec2(20,90))
+EGP:egpSize(2, 45)
+EGP:egpSize(3, 45)
+EGP:egpSize(4, 45)
+EGP:egpSize(5, 45)
+EGP:egpColor(44,vec(200,0,0))
+EGP:egpColor(5,vec(0,0,0))
+
+
+
+holoCreate(0)
+holoPos(0,E:toWorld(vec(-190,-150,90)))
+holoAng(0,E:toWorld(ang(0,90,0)))
+holoAlpha(0,150)
+holoModel(0,"models/props_lab/kennel_physics.mdl")
+
+
+
+
+
+
+}
+
+if(SHIP_num == 2)
+{
+
+EGP:egpText(2,"Name: -BUBBY-",vec2(20,20))
+EGP:egpText(3,"Type: Boat",vec2(20,55))
+EGP:egpText(4,"Speed: -null-",vec2(20,90))
+EGP:egpSize(2, 45)
+EGP:egpSize(3, 45)
+EGP:egpSize(4, 45)
+
+
+holoCreate(0)
+holoPos(0,E:toWorld(vec(-190,-150,90)))
+holoAng(0,E:toWorld(ang(0,0,0)))
+holoAlpha(0,150)
+holoModel(0,"models/props_phx/construct/metal_plate2x4.mdl")
+##floaters##
+holoCreate(1)
+holoPos(1,E:toWorld(vec(-140,-90,78)))
+holoAng(1,E:toWorld(ang(0,0,90)))
+holoAlpha(1,150)
+holoModel(1,"models/props_borealis/bluebarrel001.mdl")
+
+holoCreate(2)
+holoPos(2,E:toWorld(vec(-240,-90,78)))
+holoAng(2,E:toWorld(ang(0,0,90)))
+holoAlpha(2,150)
+holoModel(2,"models/props_borealis/bluebarrel001.mdl")
+
+holoCreate(3)
+holoPos(3,E:toWorld(vec(-140,-220,78)))
+holoAng(3,E:toWorld(ang(0,0,90)))
+holoAlpha(3,150)
+holoModel(3,"models/props_borealis/bluebarrel001.mdl")
+
+holoCreate(4)
+holoPos(4,E:toWorld(vec(-240,-220,78)))
+holoAng(4,E:toWorld(ang(0,0,90)))
+holoAlpha(4,150)
+holoModel(4,"models/props_borealis/bluebarrel001.mdl")
+}
+
+
+if(SHIP_num == 3)
+{
+
+EGP:egpText(2,"Name: -BUBBY- ft.seats",vec2(20,20))
+EGP:egpText(3,"Type: Boat",vec2(20,55))
+EGP:egpText(4,"Speed: -null-",vec2(20,90))
+EGP:egpSize(2, 45)
+EGP:egpSize(3, 45)
+EGP:egpSize(4, 45)
+
+
+holoCreate(0)
+holoPos(0,E:toWorld(vec(-190,-150,90)))
+holoAng(0,E:toWorld(ang(0,0,0)))
+holoAlpha(0,150)
+holoModel(0,"models/props_phx/construct/metal_plate2x4.mdl")
+##floaters##
+holoCreate(1)
+holoPos(1,E:toWorld(vec(-140,-90,78)))
+holoAng(1,E:toWorld(ang(0,0,90)))
+holoAlpha(1,150)
+holoModel(1,"models/props_borealis/bluebarrel001.mdl")
+
+holoCreate(2)
+holoPos(2,E:toWorld(vec(-240,-90,78)))
+holoAng(2,E:toWorld(ang(0,0,90)))
+holoAlpha(2,150)
+holoModel(2,"models/props_borealis/bluebarrel001.mdl")
+
+holoCreate(3)
+holoPos(3,E:toWorld(vec(-140,-220,78)))
+holoAng(3,E:toWorld(ang(0,0,90)))
+holoAlpha(3,150)
+holoModel(3,"models/props_borealis/bluebarrel001.mdl")
+
+holoCreate(4)
+holoPos(4,E:toWorld(vec(-240,-220,78)))
+holoAng(4,E:toWorld(ang(0,0,90)))
+holoAlpha(4,150)
+holoModel(4,"models/props_borealis/bluebarrel001.mdl")
+
+holoCreate(5)
+holoPos(5,E:toWorld(vec(-210,-150,92)))
+holoAng(5,E:toWorld(ang(0,0,0)))
+holoAlpha(5,150)
+holoModel(5,"models/nova/jeep_seat.mdl")
+
+holoCreate(6)
+holoPos(6,E:toWorld(vec(-170,-150,92)))
+holoAng(6,E:toWorld(ang(0,0,0)))
+holoAlpha(6,150)
+holoModel(6,"models/nova/jeep_seat.mdl")
+}
+
+
+
+
+
+
+
+if(SHIP_num > SHIP_count)
+{
+ SHIP_num = SHIP_count
+}
+elseif(SHIP_num < 1)
+{
+ SHIP_num = 1   
+}
+
+
+ if(EGP:click(44))
+ {
+   interval(250)
+   propDeleteAll() 
+   E:soundPlay(1,1,"buttons/button4.wav") 
+ }
+
+
+
+ if(EGP:click(22))
+ {
+   interval(250)
+   holoDeleteAll()
+   SHIP_num -= 1 
+   E:soundPlay(1,1,"buttons/button14.wav") 
+ }
+ if(EGP:click(11))
+ {
+   interval(250)
+   holoDeleteAll()
+   SHIP_num += 1 
+   E:soundPlay(1,1,"buttons/button14.wav") 
+ }
+
+ if(EGP:click(33))
+ {
+   interval(250)
+   SHIP_make = 1 
+   E:soundPlay(1,1,"buttons/button4.wav") 
+ }
+
+Models = array(holoEntity(0):model(),holoEntity(1):model(),holoEntity(2):model())
+
+
+if(SHIP_make == 1 && SHIP_num == 2)
+{    
+
+ timer("prop0",1000)
+ timer("prop1",2000)
+ timer("prop2",3000)
+ timer("prop3",4000)
+ timer("prop4",5000)
+
+ SHIP_make = 0   
+}
+
+
+if(SHIP_make == 1 && SHIP_num == 3)
+{    
+
+ timer("Part0",1000)
+ timer("Part1",2000)
+ timer("Part2",3000)
+ timer("Part3",4000)
+ timer("Part4",5000)
+ timer("Seat0",6000)
+ timer("Seat1",7000)
+
+ SHIP_make = 0   
+}
+
+
+
+if(SHIP_make == 1 && SHIP_num == 1)
+{    
+
+ timer("part0",1000)
+ 
+ SHIP_make = 0   
+}
+
+
+if(clk("Seat1"))
+{
+ E:soundPlay(1,1,BuildSound)
+ E:soundPlay(2,1,BuildSound2) 
+ Seat0 = seatSpawn(holoEntity(6):model(),holoEntity(6):toWorld(vec(0)),holoEntity(6):toWorld(ang(0)),1)
+}
+if(clk("Seat0"))
+{
+ E:soundPlay(1,1,BuildSound)
+ E:soundPlay(2,1,BuildSound2) 
+ Seat1 = seatSpawn(holoEntity(5):model(),holoEntity(5):toWorld(vec(0)),holoEntity(5):toWorld(ang(0)),1)
+}
+
+if(clk("part0"))
+{
+ E:soundPlay(1,1,BuildSound)
+ E:soundPlay(2,1,BuildSound2) 
+ Prop = propSpawn(holoEntity(0):model(),holoEntity(0):pos(),holoEntity(0):toWorld(ang(0)),1)
+}
+
+if(clk("prop0"))
+{
+ E:soundPlay(1,1,BuildSound)
+ E:soundPlay(2,1,BuildSound2) 
+ Prop = propSpawn(holoEntity(0):model(),holoEntity(0):pos(),holoEntity(0):toWorld(ang(0)),1)
+}
+if(clk("prop1"))
+{
+ E:soundPlay(1,1,BuildSound)
+ E:soundPlay(2,1,BuildSound2) 
+ Prop_1 = propSpawn(holoEntity(1):model(),holoEntity(1):pos(),holoEntity(1):toWorld(ang(0)),1)
+}
+if(clk("prop2"))
+{
+ E:soundPlay(1,1,BuildSound)
+ E:soundPlay(2,1,BuildSound2) 
+ Prop_2 = propSpawn(holoEntity(2):model(),holoEntity(2):pos(),holoEntity(2):toWorld(ang(0)),1)
+}
+if(clk("prop3"))
+{
+ E:soundPlay(1,1,BuildSound)
+ E:soundPlay(2,1,BuildSound2) 
+ Prop_3 = propSpawn(holoEntity(3):model(),holoEntity(3):pos(),holoEntity(3):toWorld(ang(0)),1)
+}
+if(clk("prop4"))
+{
+  E:soundPlay(1,1,BuildSound)
+  E:soundPlay(2,1,BuildSound2) 
+  Prop_4 = propSpawn(holoEntity(4):model(),holoEntity(4):pos(),holoEntity(4):toWorld(ang(0)),1)
+
+  timer("Finished",2000)
+
+}
+
+if(clk("prop4") && SHIP_num == 3)
+{
+ timer("Finished1",4000)
+}
+
+
+if(clk("Finished"))
+{
+ weld(Prop_1,Prop)   
+ weld(Prop_2,Prop)     
+ weld(Prop_3,Prop)     
+ weld(Prop_4,Prop) 
+ Prop_1:setMass(700)
+ Prop_2:setMass(700)
+ Prop_3:setMass(700)
+ Prop_4:setMass(700)
+
+ E:soundPlay(1,1,"garrysmod/save_load1.wav")
+
+
+ Prop:propFreeze(0)   
+ Prop_1:propFreeze(0)    
+ Prop_2:propFreeze(0)
+ Prop_3:propFreeze(0)
+ Prop_4:propFreeze(0)  
+}
+
+if(clk("Finished1"))
+{
+ weld(Prop_1,Prop)   
+ weld(Prop_2,Prop)     
+ weld(Prop_3,Prop)     
+ weld(Prop_4,Prop) 
+ weld(Seat0,Prop)
+ weld(Seat1,Prop)
+ Prop_1:setMass(700)
+ Prop_2:setMass(700)
+ Prop_3:setMass(700)
+ Prop_4:setMass(700)
+
+ E:soundPlay(1,1,"garrysmod/save_load1.wav")
+
+
+ Prop:propFreeze(0)   
+ Prop_1:propFreeze(0)    
+ Prop_2:propFreeze(0)
+ Prop_3:propFreeze(0)
+ Prop_4:propFreeze(0)
+ Seat0:propFreeze(0)
+ Seat1:propFreeze(0)  
+}
+
+
+
+

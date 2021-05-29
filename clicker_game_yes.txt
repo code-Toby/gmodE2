@@ -1,0 +1,95 @@
+@name Clicker game yes
+@inputs 
+@persist [Score,Upgrade,Payment,AutoClick]:number
+@persist [E,Screen]:entity [EGP]:wirelink
+@model 
+interval(1)
+
+
+function number wirelink:click(N){
+return inrange(EGP:egpCursor(EGP["User",entity]),EGP:egpPos(N)-EGP:egpSize(N)/2,EGP:egpPos(N)+EGP:egpSize(N)/2)
+}
+
+##include "e2anti-steal/anti-theft_v1" 
+
+if(first())
+{
+ E = entity()   
+ Screen = E:isWeldedTo()
+ EGP = Screen:wirelink()
+ 
+ EGP:egpClear()
+ Score = 0
+ #AutoClick = 1
+ Payment = 99
+ Upgrade = 0
+ EGP:egpBox(1,vec2(256,480),vec2(550,80))
+ EGP:egpColor(1,vec(255,85,85))
+
+ EGP:egpCircle(11,vec2(256),vec2(100))
+ EGP:egpColor(11,vec(255,85,85))
+ EGP:egpCircle(12,vec2(256),vec2(88))
+ EGP:egpColor(12,vec(55,25,25))
+
+
+ EGP:egpBoxOutline(22,vec2(66,477),vec2(60))
+ EGP:egpBox(111,vec2(0),vec2(50))
+ EGP:egpMaterial(111,"gui/arrow")
+ EGP:egpParent(111,22)
+
+}
+
+if(EGP:click(12))
+{
+ interval(220)
+ Score += 2 + Upgrade
+ Screen:soundPlay(1,1,"buttons/button14.wav")   
+ EGP:egpColor(12,vec(155,85,85))  
+}
+else
+{
+ EGP:egpColor(12,vec(55,25,25))   
+}
+
+
+if(Score > Payment)
+{
+    if(EGP:click(22))
+    {
+     interval(220)
+     Score -= Payment
+     Payment += 50
+     Upgrade += 2
+     Screen:soundPlay(1,1,"buttons/button4.wav")     
+    }
+    EGP:egpColor(22,vec(255))
+    EGP:egpColor(111,vec(255))
+    
+    
+}
+
+
+if(AutoClick == 1)
+{
+ interval(50)
+ timer("cliky",100)
+}
+
+
+if(clk("cliky"))
+{
+ EGP:click(12)
+}
+
+EGP:egpText(121,Payment+1 +"$",vec2(-20,0))
+EGP:egpParent(121,22)
+
+if(Score < Payment)
+{    
+    EGP:egpColor(22,vec(35))
+    EGP:egpColor(111,vec(35))       
+}
+
+ EGP:egpText(2,"Neos: "+Score+"$",vec2(180,50))
+ EGP:egpColor(2,vec(255,85,85)) 
+ EGP:egpSize(2,44)

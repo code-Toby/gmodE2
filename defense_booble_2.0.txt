@@ -1,0 +1,144 @@
+@name Defense Booble 2.0
+@inputs [Gun0,Gun1]:entity
+@outputs 
+@persist [Own,E,Prt0,Prt1,Prt2]:entity [BoobleOn]:number
+@persist [ClosestPlayer]:entity
+@model 
+
+
+
+if(first())
+{
+ Own = owner()
+ E = entity()
+ propSpawnUndo(0)
+ Prt0 = propSpawn("models/sprops/geometry/sphere_96.mdl",E:toWorld(vec(0,0,-20)),1)
+ Prt1 = propSpawn("models/sprops/misc/tubes/size_84/tube_84x36.mdl",E:toWorld(vec(0,0,-20)),E:toWorld(ang(0,0,90)),1)
+ Prt2 = propSpawn("models/sprops/geometry/sphere_96.mdl",E:toWorld(vec(0,0,-20)),1)
+ 
+ Prt0:setAlpha(0)
+ Prt1:setAlpha(0)
+ Prt2:setAlpha(0)
+
+
+ noCollideAll(Prt0,1)
+ noCollideAll(Prt1,1)
+ noCollideAll(Prt2,1)
+
+ holoCreate(1) 
+ holoColor(1,Own:getWeaponColor())
+ holoModel(1,"models/holograms/icosphere3.mdl")
+ holoAlpha(1,150)
+ holoScale(1,vec(0,0,0))
+ 
+ holoCreate(2)
+ holoColor(2,Own:getWeaponColor() - 250)
+ holoMaterial(2,"models/wireframe")
+ holoModel(2,"models/holograms/icosphere3.mdl")
+ holoAlpha(2,250)
+ holoScale(2,vec(0,0,0))
+
+ holoCreate(3)
+ holoColor(3,Own:getWeaponColor())
+ holoModel(3,"models/holograms/icosphere3.mdl")
+ holoAlpha(3,50)
+ holoScale(3,vec(0,0,0))
+
+ holoDisableShading(1,1)
+ holoDisableShading(2,1)
+ holoDisableShading(3,1)
+}
+
+interval(1)
+
+findExcludeEntity(Own)
+findClosest(Own:pos())
+
+ClosestPlayer = findResult(1)
+
+if(Own:keyWalk())
+{
+    
+
+  #timer("On",500)   
+ holoPos(1,Own:toWorld(vec(0,0,24)))   
+ holoScale(1,vec(10,10,14))
+ holoPos(2,Own:toWorld(vec(0,0,24)))   
+ holoScale(2,vec(10.2,10.2,14.2))
+ holoPos(3,Own:toWorld(vec(0,0,24)))   
+ holoScale(3,vec(-9.9,-9.9,-14))  
+
+
+ Prt0:setPos(Own:toWorld(vec(0,0,50)))
+ Prt1:setPos(Own:toWorld(vec(0,0,50)))
+ Prt2:setPos(Own:toWorld(vec(0,0,10)))
+    
+}
+else
+{
+ holoPos(1,E:toWorld(vec(0)))
+ holoScale(1,vec(0,0,0))
+ holoPos(2,E:toWorld(vec(0)))
+ holoScale(2,vec(0,0,0)) 
+ holoPos(3,E:toWorld(vec(0)))
+ holoScale(3,vec(0,0,0))
+
+
+ Prt0:setPos(E:toWorld(vec(0,0,-20)))
+ Prt1:setPos(E:toWorld(vec(0,0,-20)))
+ Prt2:setPos(E:toWorld(vec(0,0,-20)))
+   
+}
+
+
+
+
+
+
+if(Prt0 == noentity())
+{
+ Prt0 = propSpawn("models/sprops/geometry/sphere_96.mdl",E:toWorld(vec(0,0,-20)),1)
+ Prt0:setAlpha(0) 
+}
+if(Prt1 == noentity())
+{
+ Prt1 = propSpawn("models/sprops/misc/tubes/size_84/tube_84x36.mdl",E:toWorld(vec(0,0,-20)),E:toWorld(ang(0,0,90)),1)
+ Prt1:setAlpha(0) 
+}
+if(Prt2 == noentity())
+{
+ Prt2 = propSpawn("models/sprops/geometry/sphere_96.mdl",E:toWorld(vec(0,0,-20)),1)
+ Prt2:setAlpha(0)   
+}
+
+
+
+
+
+
+
+
+
+
+#[
+if(clk("On"))
+{
+ BoobleOn = 1
+ timer("off",10000)   
+}
+
+if(BoobleOn == 1)
+{
+ holoPos(1,Own:toWorld(vec(0,0,24)))   
+ holoScale(1,vec(8,8,10))      
+}
+else
+{
+ holoPos(1,E:toWorld(vec(0)))
+ holoScale(1,vec(0,0,0))   
+}
+
+if(clk("off"))
+{
+   BoobleOn = 0 
+}

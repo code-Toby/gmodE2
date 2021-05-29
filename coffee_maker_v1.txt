@@ -1,0 +1,74 @@
+@name Coffee maker v1
+@inputs [Screen]:entity 
+@outputs 
+@persist [Box,E,Model]:entity R:ranger [I]:number
+@model models/hunter/blocks/cube025x025x025.mdl
+
+interval(1)
+
+if(first())
+{
+  E = entity()
+  propSpawnUndo(0)  
+  #Box = propSpawn("models/hunter/blocks/cube05x05x05.mdl",E:toWorld(vec(0,0,10)),1)
+
+  E:setMaterial("models/debug/debugwhite")
+  E:setColor(vec(45))
+
+  holoCreate(1)
+  holoPos(1,E:toWorld(vec(6,12,0)))
+  holoScale(1,vec(0.2,1,1)) 
+
+  holoCreate(2)
+  holoPos(2,E:toWorld(vec(0,0,4)))
+  holoScale(2,vec(1.3,1,1.8))
+
+  holoCreate(3)
+  holoPos(3,E:toWorld(vec(-1,12,-6)))
+  holoScale(3,vec(1,1,0.05))
+
+  holoCreate(4)
+  holoPos(4,E:toWorld(vec(1.2,12,6)))
+  holoScale(4,vec(1,1,0.05))
+
+  holoCreate(5)
+  holoPos(5,holoEntity(4):toWorld(vec(0,0,-1)))
+  holoScale(5,vec(0.08))
+
+
+ holoParent(1,E),holoParent(4,E)
+ holoParent(2,E),holoParent(5,holoEntity(4))
+ holoParent(3,E)#,holoParent(1,E)
+ I = 6
+}
+
+
+findByModel("models/props_junk/garbage_coffeemug001a.mdl")
+Model = findClosest(holoEntity(4):pos())
+
+
+
+    runOnUse(1000000650)
+    Ply = useClk()
+if(Ply:keyUse())
+{
+    interval(5000)
+    #print(Ply:name()+": has touched a thing")
+    timer("Coffe",2000)  
+}
+
+
+
+if(clk("Coffe"))
+{
+    
+    #print("mmmmm coffee")
+    I += 1
+    holoCreate(I)
+    holoModel(I,"models/sprops/cylinders/size_2/cylinder_3x3.mdl")
+    holoMaterial(I,"models/debug/debugwhite")
+    holoColor(I,vec(87,63,0))
+    holoScale(I,vec(1.48,1.48,1))
+    holoPos(I,Model:toWorld(vec(0,-0.8,0)))
+    holoParent(I,Model)
+}

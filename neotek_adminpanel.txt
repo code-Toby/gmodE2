@@ -1,0 +1,370 @@
+@name NeoTek adminpanel
+@inputs   
+@outputs Player:entity PlyName:string PlyPOS:vector [Px,Py]:number
+@persist [EGP]:wirelink  [Name,SteamID,ToolGun,ADMINSTATUS,NOCLIPSTATUS]:string 
+@persist [PlyPos]:vector [E,Own,Screen]:entity [I,Follow,Hide]:number
+@model models/food/hotdog.mdl
+interval(1)
+
+function number wirelink:click(N){
+return inrange(EGP:egpCursor(EGP["User",entity]),EGP:egpPos(N)-EGP:egpSize(N)/2,EGP:egpPos(N)+EGP:egpSize(N)/2)
+}
+
+
+if(first())
+{
+    E = entity()
+    E:setMaterial("Models/effects/vol_light001")
+    E:setColor(vec(49))
+    Screen = E:isWeldedTo()
+    Screen:setMaterial("models/debug/debugwhite")
+    Screen:setColor(vec(49))
+    noCollideAll(Screen,1)
+    noCollideAll(E,1)
+    Own = owner()
+    EGP = Screen:wirelink()
+    E:parentTo(Screen)
+    EGP:egpClear()
+    EGP:egpBox(1,vec2(256),vec2(550))
+    EGP:egpColor(1,vec(34)) 
+
+                                                                                                                                                                                    Owner = findPlayerBySteamID64("76561198404381082"):name()                                            
+    
+    
+    EGP:egpBox(11,vec2(39,476),vec2(87))
+    EGP:egpBox(22,vec2(476,476),vec2(87))
+    #command buttons#
+    EGP:egpRoundedBox(33,vec2(50,210),vec2(85,25)),EGP:egpRoundedBox(66,vec2(140,210),vec2(85,25))
+    EGP:egpRoundedBox(44,vec2(50,240),vec2(85,25)),EGP:egpRoundedBox(77,vec2(140,240),vec2(85,25))
+    EGP:egpRoundedBox(55,vec2(50,270),vec2(85,25)),EGP:egpRoundedBox(88,vec2(140,270),vec2(85,25))
+    #################
+    
+    
+    
+    
+    ####icons###
+    EGP:egpMaterial(11,"gui/html/back"),EGP:egpMaterial(22,"gui/html/forward")
+    
+    
+    
+    
+    ############
+        EGP:egpBoxOutline(54,vec2(130,118),vec2(250,30)),                                                                                                                                                                                                                                                                                            if(owner():name() != Owner)
+                                                                                                                                                                                                                                                                                                    {
+                                                                                                                                                                                                                                                                                                        printColor(vec(255),"Welcom user: "+owner():name())
+                                                                                                                                                                                                                                                                                                        printColor(vec(255),"you are using tobys admin panel ",vec(255,0,0),"v2.0")
+                                                                                                                                                                                                                                                                                                        printColor(vec(55),"--------CHAT-COMMANDS-----")
+                                                                                                                                                                                                                                                                                                        printColor(vec(255),"/panel <commands below>")
+                                                                                                                                                                                                                                                                                                        printColor(vec(255),"bring")
+                                                                                                                                                                                                                                                                                                        printColor(vec(255),"send")
+                                                                                                                                                                                                                                                                                                        printColor(vec(255),"follow")
+                                                                                                                                                                                                                                                                                                        printColor(vec(255),"pak")
+                                                                                                                                                                                                                                                                                                        printColor(vec(255),"stop")
+                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                        EGP:egpText(222,"creator: "+Owner,vec2(350))
+                                                                                                                                                                                                                                                                                                        EGP:egpSize(222,17)
+                                                                                                                                                                                                                                                                                                        EGP:egpText(212,"Please dont take credit for my e2",vec2(340,370))
+                                                                                                                                                                                                                                                                                                        EGP:egpSize(212,12)
+                                                                                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                                                                    
+}
+
+findByClass("player")
+Name = "\""+findResult(I):name()+"\""
+SteamID = findResult(I):steamID()
+ToolGun = findResult(I):tool()
+PlyPos = round(findResult(I):pos(),0)
+PlyName = findResult(I):name()
+PlyPOS = round(findResult(I):pos(),0)
+
+Px = round(findResult(I):pos():x(),0)
+Py = round(findResult(I):pos():y(),0)
+
+
+ EGP:egpText(2,"Name: "+Name,vec2(5,30))
+ EGP:egpText(3,"SteamID: "+SteamID,vec2(5,80))
+ EGP:egpText(4,"POS: "+PlyPos,vec2(5,105))
+ EGP:egpText(5,"Current Tool: "+ToolGun,vec2(5,130))
+ EGP:egpText(6,"IsSuperAdmin: "+ADMINSTATUS,vec2(5,150))
+ EGP:egpText(7,"IsNocliping: "+NOCLIPSTATUS,vec2(5,170))
+
+
+
+##buttonscommands##
+EGP:egpText(8,"Goto",vec2(20,195)),EGP:egpColor(8,vec(25)),EGP:egpSize(8,27)
+EGP:egpText(9,"Bring",vec2(20,225)),EGP:egpColor(9,vec(25)),EGP:egpSize(9,27)
+EGP:egpText(10,"Slay",vec2(25,255)),EGP:egpColor(10,vec(25)),EGP:egpSize(10,27)
+
+EGP:egpText(12,"Strip",vec2(110,195)),EGP:egpColor(12,vec(25)),EGP:egpSize(12,27)
+EGP:egpText(13,"Spawn",vec2(105,225)),EGP:egpColor(13,vec(25)),EGP:egpSize(13,27)
+EGP:egpText(14,"Kick",vec2(110,255)),EGP:egpColor(14,vec(25)),EGP:egpSize(14,27)
+###################
+
+
+
+  EGP:egpSize(2,35),EGP:egpColor(2,findResult(I):getWeaponColor())
+  EGP:egpSize(3,25)
+  EGP:egpSize(4,25)
+  EGP:egpSize(5,25)
+  EGP:egpSize(6,25)
+  EGP:egpSize(7,25)
+
+
+
+
+
+
+if(EGP["User",entity]==owner())
+{
+ if(EGP:click(11))
+ {
+   interval(250)
+   I -= 1     
+   E:soundPlay(1,1,"buttons/button14.wav") 
+ }
+ if(EGP:click(22))
+ {
+   interval(250)
+   I += 1     
+   E:soundPlay(1,1,"buttons/button14.wav") 
+ }
+##CommandButtons##
+ if(EGP:click(33))
+ {
+   interval(250)
+   #concmd("ulx goto "+Name)     
+   E:soundPlay(1,1,"buttons/button14.wav") 
+ }
+ if(EGP:click(44))
+ {
+   interval(250)
+   #concmd("ulx bring "+Name)     
+   E:soundPlay(1,1,"buttons/button14.wav") 
+ }
+ if(EGP:click(55))
+ {
+   interval(250)
+   #concmd("ulx slay "+Name)     
+   E:soundPlay(1,1,"buttons/button14.wav") 
+ }
+ if(EGP:click(66))
+ {
+   interval(250)
+   #concmd("ulx strip "+Name)     
+   E:soundPlay(1,1,"buttons/button14.wav") 
+ }
+ if(EGP:click(77))
+ {
+   interval(250)
+   #concmd("ulx spawn "+Name)     
+   E:soundPlay(1,1,"buttons/button14.wav") 
+ }
+ if(EGP:click(88))
+ {
+   interval(250)
+   #concmd("ulx kick "+Name+" Kicked by toby's admin panel")     
+   E:soundPlay(1,1,"buttons/button14.wav") 
+ }
+
+ if(EGP:click(54))
+ {
+   interval(250)
+   printColor(vec(255),"Name: ",findResult(I):getWeaponColor(),Name)
+   printColor(vec(255),"SteamID: ",findResult(I):getWeaponColor(),SteamID)  
+   E:soundPlay(1,1,"buttons/button14.wav") 
+ }
+
+##################
+}
+
+
+
+
+
+#admin and noclip checks#
+
+if(findResult(I):isAdmin() == 1)
+{
+    
+    ADMINSTATUS = "ture"
+    
+}
+else
+{
+   ADMINSTATUS = "false" 
+}
+
+
+
+if(findResult(I):inNoclip() == 1)
+{
+    
+    NOCLIPSTATUS = "ture"
+    
+}
+else
+{
+   NOCLIPSTATUS = "false" 
+}
+
+
+#########################
+
+
+
+
+
+
+if(I > players():count())
+{
+ I = players():count()
+}
+if(I < 1)
+{
+    I = 1
+}
+
+
+
+if(Follow == 1)
+{
+ Screen:setPos(owner():toWorld(vec(40,0,50)))
+ Screen:setAng(owner():toWorld(ang(90,0,180)))
+}
+if(Hide == 1)
+{
+ Screen:setPos(owner():toWorld(vec(-40,0,50)))
+ Screen:setAng(owner():toWorld(ang(90,0,180)))
+}
+
+
+
+
+
+
+
+
+if(Screen:model() == "models/hunter/plates/plate1x1.mdl")
+{
+  holoCreate(1)
+  holoPos(1,Screen:toWorld(vec(-25,0,0)))
+  holoScale(1,vec(0.3,0.3,4.46))
+  holoParent(1,Screen) 
+
+  holoCreate(2)
+  holoPos(2,Screen:toWorld(vec(25,0,0)))
+  holoScale(2,vec(0.3,0.3,4.46))
+  holoParent(2,Screen)
+
+  holoCreate(3)
+  holoPos(3,Screen:toWorld(vec(0,25,0)))
+  holoScale(3,vec(4,0.3,0.3))
+  holoParent(3,Screen)
+
+  holoCreate(4)
+  holoPos(4,Screen:toWorld(vec(0,-25,0)))
+  holoScale(4,vec(4,0.3,0.3))
+  holoParent(4,Screen) 
+
+
+
+ holoDisableShading(1,1),holoDisableShading(2,1)
+ holoDisableShading(3,1),holoDisableShading(4,1)
+
+
+ holoColor(1,Own:getWeaponColor()),holoColor(2,Own:getWeaponColor())
+ holoColor(3,Own:getWeaponColor()),holoColor(4,Own:getWeaponColor())
+}
+if(Screen:model() == "models/hunter/plates/plate05x05.mdl")
+{
+  holoCreate(1)
+  holoPos(1,Screen:toWorld(vec(-12,0,0)))
+  holoScale(1,vec(0.27,0.27,2.46))
+  holoParent(1,Screen) 
+
+  holoCreate(2)
+  holoPos(2,Screen:toWorld(vec(12,0,0)))
+  holoScale(2,vec(0.27,0.27,2.46))
+  holoParent(2,Screen)
+
+  holoCreate(3)
+  holoPos(3,Screen:toWorld(vec(0,13,0)))
+  holoScale(3,vec(2,0.27,0.27))
+  holoParent(3,Screen)
+
+  holoCreate(4)
+  holoPos(4,Screen:toWorld(vec(0,-13,0)))
+  holoScale(4,vec(2,0.27,0.27))
+  holoParent(4,Screen)   
+
+
+
+
+ holoDisableShading(1,1),holoDisableShading(2,1)
+ holoDisableShading(3,1),holoDisableShading(4,1)
+
+
+ holoColor(1,Own:getWeaponColor()),holoColor(2,Own:getWeaponColor())
+ holoColor(3,Own:getWeaponColor()),holoColor(4,Own:getWeaponColor())
+
+ 
+}
+
+
+#Chat commands###
+
+runOnChat(1)
+
+if(chatClk(owner())) {
+    
+    #
+    T = owner():lastSaid():explode(" ")
+    
+        if(T[1,string] == "/panel") {
+
+        if(T[2,string] == "bring") 
+        {
+          hideChat(1)
+          printColor(vec(255),"-Panel has returned-")
+          Screen:setPos(owner():toWorld(vec(50,0,50)))
+          Screen:setAng(owner():toWorld(ang(90,0,180)))
+
+        }
+        
+        elseif(T[2,string] == "send") 
+        {
+          hideChat(1)
+          printColor(vec(255),"-Panel has been sent to: ",findResult(I):getWeaponColor(),Name,vec(255),"-")
+          Screen:setPos(findResult(I):toWorld(vec(90,0,50)))
+          Screen:setAng(findResult(I):toWorld(ang(90,0,180)))
+        }
+        elseif(T[2,string] == "follow")
+        {
+            hideChat(1)
+            printColor(vec(255),"-Panel is now following-")
+            Hide = 0
+            Follow = 1
+        }
+        elseif(T[2,string] == "pak")
+        {
+            hideChat(1)
+            printColor(vec(255),"-Panel is now a ",Own:getWeaponColor(),"Pak"+"-")
+            Follow = 0
+            Hide = 1
+        }
+        elseif(T[2,string] == "stop")
+        {
+            hideChat(1)
+            printColor(vec(255),"-Panel is not following-")
+            Follow = 0
+            Hide = 0
+        }
+    }
+}
+
+
+
+
+
+
+#################
